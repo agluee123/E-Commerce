@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <style>
+        /* Fondo general */
+        body {
+            background-color: #0e0e0e;
+            color: #e0e0e0;
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Encabezado */
+        .header h1 {
+            color: #00ffea;
+            text-shadow: 0 0 10px #00ffea;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Contenedor de las cards de productos */
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ajuste automático de las columnas */
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Cards de productos */
+        .product-card {
+            background: #1a1a1a;
+            border: 2px solid #00ffea;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 15px #00ffea66;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Imagen del producto */
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #00ffea;
+        }
+
+        /* Nombre del producto */
+        .product-card h3 {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #ffffff;
+        }
+
+        /* Categoría */
+        .category-badge {
+            display: inline-block;
+            background: #ff007f;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* Botones */
+        .p-button-primary, .p-button-danger, .p-button-warning, .p-button-secondary {
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .p-button-primary {
+            background-color: #00ffea;
+            color: #0e0e0e;
+        }
+
+        .p-button-primary:hover {
+            background-color: #00ccbe;
+        }
+
+        .p-button-danger {
+            background-color: #ff0055;
+            color: white;
+        }
+
+        .p-button-danger:hover {
+            background-color: #cc0044;
+        }
+
+        .p-button-warning {
+            background-color: #ffaa00;
+            color: #0e0e0e;
+        }
+
+        .p-button-warning:hover {
+            background-color: #cc8800;
+        }
+
+        .p-button-secondary {
+            background-color: #555;
+            color: white;
+        }
+
+        .p-button-secondary:hover {
+            background-color: #777;
+        }
+
+        /* Formulario del diálogo */
+        .product-form {
+            padding: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .actions-footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+
+
+    <title>Catálogo de Artículos</title>
+</h:head>
+
+<h:body>
+    <div class="container">
+        <div class="header">
+            <h1>Ecommerce</h1>
+            <p:commandButton value="Admin Articulos"
+                             icon="pi pi-cog"
+                             action="adminArticulos?faces-redirect=true"
+                             styleClass="p-button-primary"/>
+        </div>
+
+        <h:form id="mainForm">
+            <!-- Listado de artículos -->
+            <h3>Artículos Registrados</h3>
+            <div class="products-container">
+                <ui:repeat value="#{indexControlador.articulos}" var="articulo">
+                    <div class="product-card">
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 15px;">
+                            <p:graphicImage value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
+                                            styleClass="product-image"/>
+                            <div>
+                                <h3 style="margin-top: 0;">#{articulo.nombre}</h3>
+                                <span class="category-badge">#{articulo.categoria.nombre}</span>
+                                <p><strong>Precio:</strong> $#{articulo.precio}</p>
+                                <p><strong>Stock:</strong> #{articulo.stock} unidades</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </ui:repeat>
+
+                <ui:fragment rendered="#{empty indexControlador.articulos}">
+                    <div style="text-align: center; padding: 40px; color: #777;">
+                        <i class="pi pi-info-circle" style="font-size: 2em;"></i>
+                        <p>No hay artículos registrados</p>
+                    </div>
+                </ui:fragment>
+            </div>
+        </h:form>
+    </div>
+
+    <!-- Notificaciones -->
+    <p:growl id="growl" life="3000"/>
+</h:body>
+</html>
