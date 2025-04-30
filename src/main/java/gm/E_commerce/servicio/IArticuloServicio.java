@@ -7,7 +7,7 @@ import java.util.List;
 public interface IArticuloServicio {
     public List<Articulos> listarArticulos();
 
-    //public Articulos buscarArticuloPorId(Integer idCliente);
+    public Articulos buscarArticuloPorId(Integer idCliente);
 
     public void guardarArticulo(Articulos articulo);
 

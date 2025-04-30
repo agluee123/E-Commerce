@@ -139,132 +139,111 @@
 <!--    </style>-->
 
 
-    <title>Catálogo de Artículos</title>
+    <title>Usuarios</title>
 </h:head>
 
 <h:body>
     <div class="container">
         <div class="header">
-            <h1>Ecommerce</h1>
-            <p:commandButton value="Nuevo Artículo"
+            <h1>Administracion de Usuarios</h1>
+            <p:commandButton value="Nuevo Usuario"
                              icon="pi pi-plus"
                              onclick="PF('productDialog').show()"
                              styleClass="p-button-primary"/>
         </div>
 
         <h:form id="mainForm">
-            <!-- Diálogo para nuevo artículo -->
-            <p:dialog header="Nuevo Artículo" widgetVar="productDialog" modal="true"
-                      width="600" resizable="false" closable="true">
-                    <div class="product-form">
-                        <div class="form-grid">
-                            <!-- Campo Nombre -->
-                            <div>
-                                <h:outputLabel for="nombre" value="Nombre:" style="font-weight: bold"/>
-                                <p:inputText id="nombre" value="#{indexControlador.articuloNuevo.nombre}"
-                                             required="true" style="width: 100%"
-                                             requiredMessage="El nombre es obligatorio"/>
-                            </div>
-
-                            <!-- Campo Precio -->
-                            <div>
-                                <h:outputLabel for="precio" value="Precio:" style="font-weight: bold"/>
-                                <p:inputNumber id="precio" value="#{indexControlador.articuloNuevo.precio}"
-                                               symbol="$" required="true" style="width: 100%"
-                                               requiredMessage="El precio es obligatorio"/>
-                            </div>
-
-                            <!-- Campo Stock -->
-                            <div>
-                                <h:outputLabel for="stock" value="Stock:" style="font-weight: bold"/>
-                                <p:inputNumber id="stock" value="#{indexControlador.articuloNuevo.stock}"
-                                               style="width: 100%" minValue="0"/>
-                            </div>
-
-                            <!-- Campo Imagen -->
-                            <div>
-                                <h:outputLabel for="imagenUrl" value="URL Imagen:" style="font-weight: bold"/>
-                                <p:inputText id="imagenUrl" value="#{indexControlador.articuloNuevo.imagenUrl}"
-                                             style="width: 100%"/>
-                            </div>
-
-                            <!-- Selector de Categoría -->
-                            <div style="grid-column: span 2">
-                                <h:outputLabel for="categoria" value="Categoría:" style="font-weight: bold"/>
-                                <p:selectOneMenu id="categoria" value="#{indexControlador.categoriaSeleccionadaId}"
-                                                 required="true" style="width: 100%"
-                                                 requiredMessage="Seleccione una categoría">
-                                    <f:selectItem itemLabel="Seleccione categoría" itemValue="0" />
-                                    <f:selectItems value="#{indexControlador.categorias}" var="cat"
-                                                   itemLabel="#{cat.nombre}" itemValue="#{cat.id}" />
-                                </p:selectOneMenu>
-                            </div>
+            <!-- Diálogo para nuevo Usuario -->
+            <p:dialog header="Nuevo Usuario"
+                      widgetVar="productDialog"
+                      modal="true"
+                      width="600"
+                      resizable="false"
+                      closable="true">
+                <div class="product-form">
+                    <div class="form-grid">
+                        <!-- Campo Nombre -->
+                        <div>
+                            <h:outputLabel for="nombre" value="Nombre:" style="font-weight: bold"/>
+                            <p:inputText id="nombre"
+                                         value="#{usuarioControlador.usuarioNuevo.nombre}"
+                                         required="true"
+                                         style="width: 100%"
+                                         requiredMessage="El nombre es obligatorio"/>
                         </div>
 
-                        <!-- BOTÓN DE GUARDAR ARTÍCULO (aquí está el botón que necesitas) -->
-                        <div class="actions-footer">
-                            <p:commandButton value="Guardar Artículo"
-                                             action="#{indexControlador.guardarArticulo}"
-                                             update=":mainForm :growl"
-                                             oncomplete="if(!args.validationFailed) PF('productDialog').hide()"
-                                             icon="pi pi-save"
-                                             styleClass="p-button-primary"/>
+                        <!-- Campo Email -->
+                        <div>
+                            <h:outputLabel for="email" value="Email:" style="font-weight: bold"/>
+                            <p:inputText id="email"
+                                         value="#{usuarioControlador.usuarioNuevo.email}"
+                                         required="true"
+                                         style="width: 100%"
+                                         requiredMessage="El email es obligatorio"/>
+                        </div>
 
-                            <p:commandButton value="Cancelar"
-                                             onclick="PF('productDialog').hide()"
-                                             styleClass="p-button-secondary"/>
+                        <!-- Contraseña -->
+                        <div>
+                            <h:outputLabel for="contraseña" value="Contraseña:" style="font-weight: bold"/>
+                            <p:inputText id="contraseña"
+                                         value="#{usuarioControlador.usuarioNuevo.contraseña}"
+                                         style="width: 100%"/>
+                        </div>
+
+                        <!-- Rol -->
+                        <div>
+                            <h:outputLabel for="rol" value="Rol:" style="font-weight: bold"/>
+                            <p:selectOneMenu id="rol" value="#{usuarioControlador.usuarioNuevo.rol}" style="width:100%">
+                                <f:selectItem itemLabel="Seleccione un rol" itemValue="" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="USUARIO" itemValue="USUARIO" />
+                                <f:selectItem itemLabel="ADMIN" itemValue="ADMIN" />
+                            </p:selectOneMenu>
                         </div>
                     </div>
+
+                    <!-- Botones -->
+                    <div class="actions-footer">
+                        <p:commandButton value="Guardar Usuario"
+                                         action="#{usuarioControlador.guardarUsuario}"
+                                         update="mainForm growl"
+                                         oncomplete="if (!args.validationFailed) PF('productDialog').hide()"
+                                         icon="pi pi-save"
+                                         styleClass="p-button-primary"/>
+
+                        <p:commandButton value="Cancelar"
+                                         onclick="PF('productDialog').hide()"
+                                         type="button"
+                                         styleClass="p-button-secondary"/>
+
+                    </div>
+                </div>
             </p:dialog>
 
-            <!-- Listado de artículos -->
+            <p:dataTable value="#{usuarioControlador.listaUsuarios}" var="usuario"
+                         paginator="true" rows="10"
+                         responsiveLayout="scroll"
+                         emptyMessage="No hay usuarios registrados">
 
-            <h3>Artículos Registrados</h3>
-
-            <p:dataTable value="#{indexControlador.articulos}" var="articulo"
-                         paginator="true" rows="10" responsiveLayout="scroll"
-                         emptyMessage="No hay artículos registrados">
+                <p:column headerText="ID">
+                    <h:outputText value="#{usuario.id}" />
+                </p:column>
 
                 <p:column headerText="Nombre">
-                    <h:outputText value="#{articulo.nombre}" />
+                    <h:outputText value="#{usuario.nombre}" />
                 </p:column>
 
-                <p:column headerText="Categoría">
-                    <h:outputText value="#{articulo.categoria.nombre}" />
+                <p:column headerText="Email">
+                    <h:outputText value="#{usuario.email}" />
                 </p:column>
 
-                <p:column headerText="Precio">
-                    <h:outputText value="$#{articulo.precio}" />
-                </p:column>
-
-                <p:column headerText="Stock">
-                    <h:outputText value="#{articulo.stock} unidades" />
-                </p:column>
-
-                <p:column headerText="URL de Imagen">
-                    <h:outputText value="#{articulo.imagenUrl}" />
-                </p:column>
-
-                <p:column headerText="Acciones">
-                    <p:commandButton value="Eliminar"
-                                     action="#{indexControlador.eliminarArticulo(articulo.id)}"
-                                     process="@this"
-                                     update=":mainForm :growl"
-                                     icon="pi pi-trash"
-                                     styleClass="p-button-danger p-button-sm"
-                                     title="Eliminar artículo"/>
-
-                    <p:commandButton value="Modificar"
-                                     action="#{indexControlador.cargarArticuloParaEditar(articulo.id)}"
-                                     update=":mainForm"
-                                     oncomplete="PF('productDialog').show()"
-                                     icon="pi pi-pencil"
-                                     process="@this"
-                                     styleClass="p-button-warning p-button-sm"
-                                     title="Editar artículo"/>
+                <p:column headerText="Rol">
+                    <h:outputText value="#{usuario.rol}" />
                 </p:column>
 
             </p:dataTable>
+
+
+            <!-- Listado de artículos -->
 <!--            <h3>Artículos Registrados</h3>-->
 <!--            <div class="products-container">-->
 <!--                <ui:repeat value="#{indexControlador.articulos}" var="articulo">-->
