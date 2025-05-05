@@ -102,15 +102,9 @@ public class IndexControlador {
 
     public void eliminarArticulo(int idArticulo) {
         try {
-            if (idArticulo <= 0) {
-                mostrarMensajeError("ID de artículo inválido");
-                return;
-            }
 
             articuloServicio.eliminarArticuloPorId(idArticulo);
             this.articulos = articuloServicio.listarArticulos(); // Actualizar lista
-
-            mostrarMensajeExito("Artículo eliminado correctamente");
 
         } catch (Exception e) {
             logger.error("Error al eliminar artículo ID: " + idArticulo, e);
@@ -139,8 +133,6 @@ public class IndexControlador {
                 this.articuloNuevo = articulo;
                 // Asignar la categoría seleccionada
                 this.categoriaSeleccionadaId = articulo.getCategoria().getId();
-            } else {
-                mostrarMensajeError("El artículo no existe.");
             }
         } catch (Exception e) {
             logger.error("Error al cargar el artículo para editar", e);

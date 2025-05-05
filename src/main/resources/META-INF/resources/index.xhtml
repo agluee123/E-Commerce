@@ -150,6 +150,10 @@
                              icon="pi pi-cog"
                              action="adminArticulos?faces-redirect=true"
                              styleClass="p-button-primary"/>
+            <p:commandButton value="Admin Usuarios"
+                             icon="pi pi-cog"
+                             action="adminUsuario?faces-redirect=true"
+                             styleClass="p-button-primary"/>
         </div>
 
         <h:form id="mainForm">
@@ -159,8 +163,9 @@
                 <ui:repeat value="#{indexControlador.articulos}" var="articulo">
                     <div class="product-card">
                         <div style="display: grid; grid-template-columns: 120px 1fr; gap: 15px;">
-                            <p:graphicImage value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
-                                            styleClass="product-image"/>
+                            <p:graphicImage
+                                    value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
+                                    styleClass="product-image"/>
                             <div>
                                 <h3 style="margin-top: 0;">#{articulo.nombre}</h3>
                                 <span class="category-badge">#{articulo.categoria.nombre}</span>

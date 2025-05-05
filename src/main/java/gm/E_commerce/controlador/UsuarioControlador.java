@@ -8,6 +8,8 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.primefaces.PrimeFaces;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class UsuarioControlador implements Serializable {
 
     private List<Usuarios> listaUsuarios;
     private Usuarios usuarioNuevo;
+    private Usuarios usuarioSeleccionado; // Para edición
 
     @PostConstruct
     public void init() {
@@ -53,6 +56,45 @@ public class UsuarioControlador implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public void eliminarUsuario(Usuarios usuario) {
+        try {
+            usuarioServicio.eliminarPorId(usuario.getId()); // Usando el método que implementaste
+            listaUsuarios = usuarioServicio.Listar(); // Actualizar la lista
+
+            // Mensaje de éxito
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Éxito",
+                    "Usuario eliminado correctamente");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Exception e) {
+            // Mensaje de error
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error",
+                    "No se pudo eliminar el usuario");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarUsuarioParaEditar(int usuarioId) {
+        try {
+            // Buscar el usuario por ID
+            Usuarios usuario = usuarioServicio.obtenerUsuarioPorId(usuarioId);
+
+            if (usuario != null) {
+                // Asignar el usuario a la variable para edición
+                this.usuarioNuevo = usuario;
+                // Si necesitas cargar algún atributo específico como rol, sería aquí
+                // Ejemplo: this.rolSeleccionado = usuario.getRol();
+            } else {
+                mostrarMensajeError("El usuario no existe.");
+            }
+        } catch (Exception e) {
+            mostrarMensajeError("Error al cargar el usuario para editar.");
+        }
+    }
+
 
     // Métodos para mostrar mensajes
     private void mostrarMensajeExito(String mensaje) {
