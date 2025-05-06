@@ -3,165 +3,159 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      template="/WEB-INF/templates/layout.xhtml">
-
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-
-    <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
-        <div style="margin-bottom:10px;">
-            <h:outputText value="Usuario: #{loginControlador.nombreUsuarioLogueado}" />
-            <h:form style="display:inline;">
-                <p:commandButton value="Cerrar sesión"
-                                 icon="pi pi-sign-out"
-                                 action="#{loginControlador.logout}"
-                                 styleClass="p-button-danger p-button-sm" />
-            </h:form>
-        </div>
-    </h:panelGroup>
-    <!--    <style>-->
-    <!--        /* Fondo general */-->
-    <!--        body {-->
-    <!--            background-color: #0e0e0e;-->
-    <!--            color: #e0e0e0;-->
-    <!--            font-family: 'Orbitron', sans-serif;-->
-    <!--            margin: 0;-->
-    <!--            padding: 0;-->
-    <!--        }-->
-
-    <!--        /* Encabezado */-->
-    <!--        .header h1 {-->
-    <!--            color: #00ffea;-->
-    <!--            text-shadow: 0 0 10px #00ffea;-->
-    <!--            text-align: center;-->
-    <!--            margin-bottom: 20px;-->
-    <!--        }-->
-
-    <!--        /* Contenedor de las cards de productos */-->
-    <!--        .products-container {-->
-    <!--            display: grid;-->
-    <!--            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ajuste automático de las columnas */-->
-    <!--            gap: 20px;-->
-    <!--            padding: 20px;-->
-    <!--        }-->
-
-    <!--        /* Cards de productos */-->
-    <!--        .product-card {-->
-    <!--            background: #1a1a1a;-->
-    <!--            border: 2px solid #00ffea;-->
-    <!--            border-radius: 12px;-->
-    <!--            padding: 20px;-->
-    <!--            box-shadow: 0 0 15px #00ffea66;-->
-    <!--            transition: transform 0.3s, box-shadow 0.3s;-->
-    <!--            display: flex;-->
-    <!--            flex-direction: column;-->
-    <!--            align-items: center;-->
-    <!--        }-->
-
-    <!--        /* Imagen del producto */-->
-    <!--        .product-image {-->
-    <!--            width: 100%;-->
-    <!--            height: 200px;-->
-    <!--            object-fit: cover;-->
-    <!--            border-radius: 10px;-->
-    <!--            border: 2px solid #00ffea;-->
-    <!--        }-->
-
-    <!--        /* Nombre del producto */-->
-    <!--        .product-card h3 {-->
-    <!--            margin: 10px 0;-->
-    <!--            font-size: 1.5em;-->
-    <!--            color: #ffffff;-->
-    <!--        }-->
-
-    <!--        /* Categoría */-->
-    <!--        .category-badge {-->
-    <!--            display: inline-block;-->
-    <!--            background: #ff007f;-->
-    <!--            color: white;-->
-    <!--            padding: 5px 10px;-->
-    <!--            border-radius: 20px;-->
-    <!--            font-size: 0.9em;-->
-    <!--            margin-top: 5px;-->
-    <!--            margin-bottom: 10px;-->
-    <!--        }-->
-
-    <!--        /* Botones */-->
-    <!--        .p-button-primary, .p-button-danger, .p-button-warning, .p-button-secondary {-->
-    <!--            border: none;-->
-    <!--            padding: 10px 20px;-->
-    <!--            margin: 5px;-->
-    <!--            border-radius: 8px;-->
-    <!--            font-weight: bold;-->
-    <!--            cursor: pointer;-->
-    <!--            transition: background 0.3s;-->
-    <!--            font-family: 'Orbitron', sans-serif;-->
-    <!--        }-->
-
-    <!--        .p-button-primary {-->
-    <!--            background-color: #00ffea;-->
-    <!--            color: #0e0e0e;-->
-    <!--        }-->
-
-    <!--        .p-button-primary:hover {-->
-    <!--            background-color: #00ccbe;-->
-    <!--        }-->
-
-    <!--        .p-button-danger {-->
-    <!--            background-color: #ff0055;-->
-    <!--            color: white;-->
-    <!--        }-->
-
-    <!--        .p-button-danger:hover {-->
-    <!--            background-color: #cc0044;-->
-    <!--        }-->
-
-    <!--        .p-button-warning {-->
-    <!--            background-color: #ffaa00;-->
-    <!--            color: #0e0e0e;-->
-    <!--        }-->
-
-    <!--        .p-button-warning:hover {-->
-    <!--            background-color: #cc8800;-->
-    <!--        }-->
-
-    <!--        .p-button-secondary {-->
-    <!--            background-color: #555;-->
-    <!--            color: white;-->
-    <!--        }-->
-
-    <!--        .p-button-secondary:hover {-->
-    <!--            background-color: #777;-->
-    <!--        }-->
-
-    <!--        /* Formulario del diálogo */-->
-    <!--        .product-form {-->
-    <!--            padding: 20px;-->
-    <!--        }-->
-
-    <!--        .form-grid {-->
-    <!--            display: grid;-->
-    <!--            grid-template-columns: 1fr 1fr;-->
-    <!--            gap: 15px;-->
-    <!--        }-->
-
-    <!--        .actions-footer {-->
-    <!--            margin-top: 20px;-->
-    <!--            text-align: center;-->
-    <!--        }-->
-    <!--    </style>-->
-
     <f:metadata>
         <f:viewAction action="#{loginControlador.verificarAdmin}" />
     </f:metadata>
+
     <title>Catálogo de Artículos</title>
+
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #495057;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .product-form {
+            padding: 15px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .actions-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            margin: 20px 0 15px 0;
+            font-size: 22px;
+            font-weight: 500;
+        }
+
+        /* Estilos para la tabla */
+        .product-table .p-datatable-thead > tr > th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .product-table .p-datatable-tbody > tr {
+            transition: background-color 0.2s;
+        }
+
+        .product-table .p-datatable-tbody > tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .stock-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stock-low {
+            color: #e74c3c;
+        }
+
+        .stock-ok {
+            color: #27ae60;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
 </h:head>
 
 <h:body>
     <div class="container">
+        <!-- Barra de usuario -->
+        <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
+            <div class="user-info">
+                <p:avatar icon="pi pi-user" size="large" shape="circle" style="background-color: #3498db; color: white"/>
+                <div style="flex-grow: 1;">
+                    <h3 style="margin: 0 0 5px 0;">#{loginControlador.nombreUsuarioLogueado}</h3>
+                    <p:badge value="#{loginControlador.usuarioAutenticado.rol}" severity="info"/>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <p:commandButton value="Inicio"
+                                     icon="pi pi-home"
+                                     action="index?faces-redirect=true"
+                                     styleClass="p-button-text"/>
+                </div>
+                <h:form>
+                    <p:commandButton value="Cerrar sesión"
+                                     icon="pi pi-sign-out"
+                                     action="#{loginControlador.logout}"
+                                     styleClass="p-button-danger p-button-sm" />
+                </h:form>
+            </div>
+        </h:panelGroup>
+
+        <!-- Encabezado -->
         <div class="header">
             <h1>Ecommerce</h1>
+
             <p:commandButton value="Nuevo Artículo"
                              icon="pi pi-plus"
                              onclick="PF('productDialog').show()"
@@ -171,42 +165,44 @@
         <h:form id="mainForm">
             <!-- Diálogo para nuevo artículo -->
             <p:dialog header="Nuevo Artículo" widgetVar="productDialog" modal="true"
-                      width="600" resizable="false" closable="true">
+                      width="600" resizable="false" closable="true" styleClass="product-dialog">
                 <div class="product-form">
                     <div class="form-grid">
                         <!-- Campo Nombre -->
                         <div>
-                            <h:outputLabel for="nombre" value="Nombre:" style="font-weight: bold"/>
+                            <p:outputLabel for="nombre" value="Nombre:" styleClass="form-label"/>
                             <p:inputText id="nombre" value="#{indexControlador.articuloNuevo.nombre}"
                                          required="true" style="width: 100%"
                                          requiredMessage="El nombre es obligatorio"/>
+                            <p:message for="nombre" display="icon"/>
                         </div>
 
                         <!-- Campo Precio -->
                         <div>
-                            <h:outputLabel for="precio" value="Precio:" style="font-weight: bold"/>
+                            <p:outputLabel for="precio" value="Precio:" styleClass="form-label"/>
                             <p:inputNumber id="precio" value="#{indexControlador.articuloNuevo.precio}"
                                            symbol="$" required="true" style="width: 100%"
                                            requiredMessage="El precio es obligatorio"/>
+                            <p:message for="precio" display="icon"/>
                         </div>
 
                         <!-- Campo Stock -->
                         <div>
-                            <h:outputLabel for="stock" value="Stock:" style="font-weight: bold"/>
+                            <p:outputLabel for="stock" value="Stock:" styleClass="form-label"/>
                             <p:inputNumber id="stock" value="#{indexControlador.articuloNuevo.stock}"
                                            style="width: 100%" minValue="0"/>
                         </div>
 
                         <!-- Campo Imagen -->
                         <div>
-                            <h:outputLabel for="imagenUrl" value="URL Imagen:" style="font-weight: bold"/>
+                            <p:outputLabel for="imagenUrl" value="URL Imagen:" styleClass="form-label"/>
                             <p:inputText id="imagenUrl" value="#{indexControlador.articuloNuevo.imagenUrl}"
                                          style="width: 100%"/>
                         </div>
 
                         <!-- Selector de Categoría -->
                         <div style="grid-column: span 2">
-                            <h:outputLabel for="categoria" value="Categoría:" style="font-weight: bold"/>
+                            <p:outputLabel for="categoria" value="Categoría:" styleClass="form-label"/>
                             <p:selectOneMenu id="categoria" value="#{indexControlador.categoriaSeleccionadaId}"
                                              required="true" style="width: 100%"
                                              requiredMessage="Seleccione una categoría">
@@ -214,10 +210,10 @@
                                 <f:selectItems value="#{indexControlador.categorias}" var="cat"
                                                itemLabel="#{cat.nombre}" itemValue="#{cat.id}"/>
                             </p:selectOneMenu>
+                            <p:message for="categoria" display="icon"/>
                         </div>
                     </div>
 
-                    <!-- BOTÓN DE GUARDAR ARTÍCULO (aquí está el botón que necesitas) -->
                     <div class="actions-footer">
                         <p:commandButton value="Guardar Artículo"
                                          action="#{indexControlador.guardarArticulo}"
@@ -234,96 +230,73 @@
             </p:dialog>
 
             <!-- Listado de artículos -->
-
-            <h3>Artículos Registrados</h3>
+            <h3 class="section-title">Artículos Registrados</h3>
 
             <p:dataTable value="#{indexControlador.articulos}" var="articulo"
                          paginator="true" rows="10" responsiveLayout="scroll"
-                         emptyMessage="No hay artículos registrados">
+                         emptyMessage="No hay artículos registrados"
+                         styleClass="product-table"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} artículos"
+                         rowsPerPageTemplate="5,10,15,20">
 
-                <p:column headerText="Nombre">
+                <p:column headerText="Nombre" sortBy="#{articulo.nombre}" filterBy="#{articulo.nombre}">
                     <h:outputText value="#{articulo.nombre}"/>
                 </p:column>
 
-                <p:column headerText="Categoría">
-                    <h:outputText value="#{articulo.categoria.nombre}"/>
+                <p:column headerText="Categoría" sortBy="#{articulo.categoria.nombre}">
+                    <p:tag value="#{articulo.categoria.nombre}" severity="info"/>
                 </p:column>
 
-                <p:column headerText="Precio">
+                <p:column headerText="Precio" sortBy="#{articulo.precio}">
                     <h:outputText value="$#{articulo.precio}"/>
                 </p:column>
 
-                <p:column headerText="Stock">
-                    <h:outputText value="#{articulo.stock} unidades"/>
+                <p:column headerText="Stock" sortBy="#{articulo.stock}">
+                    <div class="stock-indicator #{articulo.stock lt 10 ? 'stock-low' : 'stock-ok'}">
+                        <i class="pi pi-box"/>
+                        <h:outputText value="#{articulo.stock} unidades"/>
+                    </div>
                 </p:column>
 
-                <p:column headerText="URL de Imagen">
-                    <h:outputText value="#{articulo.imagenUrl}"/>
+                <p:column headerText="Imagen">
+                    <p:graphicImage value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
+                                    width="50" height="50" styleClass="product-thumbnail"/>
                 </p:column>
 
-                <p:column headerText="Acciones">
-                    <p:commandButton value="Eliminar"
-                                     action="#{indexControlador.eliminarArticulo(articulo.id)}"
-                                     process="@this"
-                                     update=":mainForm :growl"
-                                     icon="pi pi-trash"
-                                     styleClass="p-button-danger p-button-sm"
-                                     title="Eliminar artículo"/>
+                <p:column headerText="Acciones" style="width: 180px;">
+                    <div class="action-buttons">
+                        <p:commandButton icon="pi pi-trash"
+                                         action="#{indexControlador.eliminarArticulo(articulo.id)}"
+                                         process="@this"
+                                         update=":mainForm :growl"
+                                         styleClass="p-button-danger p-button-sm"
+                                         title="Eliminar artículo">
+                        </p:commandButton>
 
-                    <p:commandButton value="Modificar"
-                                     action="#{indexControlador.cargarArticuloParaEditar(articulo.id)}"
-                                     update=":mainForm"
-                                     oncomplete="PF('productDialog').show()"
-                                     icon="pi pi-pencil"
-                                     process="@this"
-                                     styleClass="p-button-warning p-button-sm"
-                                     title="Editar artículo"/>
+                        <p:commandButton icon="pi pi-pencil"
+                                         action="#{indexControlador.cargarArticuloParaEditar(articulo.id)}"
+                                         update=":mainForm"
+                                         oncomplete="PF('productDialog').show()"
+                                         process="@this"
+                                         styleClass="p-button-warning p-button-sm"
+                                         title="Editar artículo"/>
+                    </div>
                 </p:column>
 
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sí" styleClass="p-button-text" actionListener="#{indexControlador.eliminarArticulo(articulo.id)}"
+                                     update=":mainForm :growl" oncomplete="PF('confirmDialog').hide()"/>
+                    <p:commandButton value="No" styleClass="p-button-text" onclick="PF('confirmDialog').hide()"/>
+                </p:confirmDialog>
             </p:dataTable>
-            <!--            <h3>Artículos Registrados</h3>-->
-            <!--            <div class="products-container">-->
-            <!--                <ui:repeat value="#{indexControlador.articulos}" var="articulo">-->
-            <!--                    <div class="product-card">-->
-            <!--                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 15px;">-->
-            <!--                            <p:graphicImage value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"-->
-            <!--                                            styleClass="product-image"/>-->
-            <!--                            <div>-->
-            <!--                                <h3 style="margin-top: 0;">#{articulo.nombre}</h3>-->
-            <!--                                <span class="category-badge">#{articulo.categoria.nombre}</span>-->
-            <!--                                <p><strong>Precio:</strong> $#{articulo.precio}</p>-->
-            <!--                                <p><strong>Stock:</strong> #{articulo.stock} unidades</p>-->
-
-            <!--                                <p:commandButton value="Eliminar"-->
-            <!--                                                 action="#{indexControlador.eliminarArticulo(articulo.id)}"-->
-            <!--                                                 process="@this"-->
-            <!--                                                 update=":mainForm :growl"-->
-            <!--                                                 styleClass="p-button-danger"/>-->
-
-
-            <!--                                <p:commandButton value="Modificar"-->
-            <!--                                                 action="#{indexControlador.cargarArticuloParaEditar(articulo.id)}"-->
-            <!--                                                 update=":mainForm"-->
-            <!--                                                 oncomplete="PF('productDialog').show()"-->
-            <!--                                                 icon="pi pi-pencil"-->
-            <!--                                                 process="@this"-->
-            <!--                                                 styleClass="p-button-warning"/>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </ui:repeat>-->
-
-            <!--                <ui:fragment rendered="#{empty indexControlador.articulos}">-->
-            <!--                    <div style="text-align: center; padding: 40px; color: #777;">-->
-            <!--                        <i class="pi pi-info-circle" style="font-size: 2em;"></i>-->
-            <!--                        <p>No hay artículos registrados</p>-->
-            <!--                    </div>-->
-            <!--                </ui:fragment>-->
-            <!--            </div>-->
         </h:form>
     </div>
 
     <!-- Notificaciones -->
-    <p:growl id="growl" life="3000"/>
+    <p:growl id="growl" life="3000" position="top-right"/>
+
+    <!-- Agregar íconos de PrimeIcons -->
+    <h:outputScript name="primeicons/primeicons.js" library="primefaces"/>
 </h:body>
 </html>

@@ -6,200 +6,220 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
-
-    <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
-        <div style="margin-bottom:10px;">
-            <h:outputText value="Usuario: #{loginControlador.nombreUsuarioLogueado}" />
-            <h:form style="display:inline;">
-                <p:commandButton value="Cerrar sesión"
-                                 icon="pi pi-sign-out"
-                                 action="#{loginControlador.logout}"
-                                 styleClass="p-button-danger p-button-sm" />
-            </h:form>
-        </div>
-    </h:panelGroup>
-    <style>
-        /* Fondo general */
+    <title>Catálogo de Artículos</title>
+    <style type="text/css">
         body {
-            background-color: #0e0e0e;
-            color: #e0e0e0;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
+            color: #495057;
         }
 
-        /* Encabezado */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
         .header h1 {
-            color: #00ffea;
-            text-shadow: 0 0 10px #00ffea;
-            text-align: center;
-            margin-bottom: 20px;
+            color: #2c3e50;
+            margin: 0;
+            font-size: 28px;
         }
 
-        /* Contenedor de las cards de productos */
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
         .products-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ajuste automático de las columnas */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
-            padding: 20px;
+            margin-top: 20px;
         }
 
-        /* Cards de productos */
         .product-card {
-            background: #1a1a1a;
-            border: 2px solid #00ffea;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 0 15px #00ffea66;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Imagen del producto */
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
         .product-image {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 2px solid #00ffea;
+            height: 180px;
+            object-fit: contain;
         }
 
-        /* Nombre del producto */
-        .product-card h3 {
-            margin: 10px 0;
-            font-size: 1.5em;
-            color: #ffffff;
+        .product-content {
+            padding: 15px;
         }
 
-        /* Categoría */
+        .product-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: #2c3e50;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #27ae60;
+            margin: 8px 0;
+        }
+
+        .product-stock {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin: 4px 0;
+        }
+
         .category-badge {
             display: inline-block;
-            background: #ff007f;
+            background-color: #3498db;
             color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            margin-top: 5px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
             margin-bottom: 10px;
         }
 
-        /* Botones */
-        .p-button-primary, .p-button-danger, .p-button-warning, .p-button-secondary {
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-family: 'Orbitron', sans-serif;
+        .section-title {
+            color: #2c3e50;
+            margin: 20px 0;
+            font-size: 22px;
+            font-weight: 500;
         }
 
-        .p-button-primary {
-            background-color: #00ffea;
-            color: #0e0e0e;
-        }
-
-        .p-button-primary:hover {
-            background-color: #00ccbe;
-        }
-
-        .p-button-danger {
-            background-color: #ff0055;
-            color: white;
-        }
-
-        .p-button-danger:hover {
-            background-color: #cc0044;
-        }
-
-        .p-button-warning {
-            background-color: #ffaa00;
-            color: #0e0e0e;
-        }
-
-        .p-button-warning:hover {
-            background-color: #cc8800;
-        }
-
-        .p-button-secondary {
-            background-color: #555;
-            color: white;
-        }
-
-        .p-button-secondary:hover {
-            background-color: #777;
-        }
-
-        /* Formulario del diálogo */
-        .product-form {
-            padding: 20px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .actions-footer {
-            margin-top: 20px;
+        .empty-message {
             text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .header-buttons {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .products-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-
-
-    <title>Catálogo de Artículos</title>
 </h:head>
 
 <h:body>
     <div class="container">
+        <!-- Barra de usuario -->
+        <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
+            <div class="user-info">
+                <p:avatar icon="pi pi-user" size="large" shape="circle" style="background-color: #3498db; color: white"/>
+                <div style="flex-grow: 1;">
+                    <h3 style="margin: 0 0 5px 0;">#{loginControlador.nombreUsuarioLogueado}</h3>
+                    <p:badge value="#{loginControlador.usuarioAutenticado.rol}" severity="info"/>
+                </div>
+                <h:form>
+                    <p:commandButton value="Cerrar sesión"
+                                     icon="pi pi-sign-out"
+                                     action="#{loginControlador.logout}"
+                                     styleClass="p-button-danger p-button-sm" />
+                </h:form>
+            </div>
+        </h:panelGroup>
+
+        <!-- Encabezado -->
         <div class="header">
             <h1>Ecommerce</h1>
-            <p:commandButton value="Admin Articulos"
-                             icon="pi pi-cog"
-                             action="adminArticulos?faces-redirect=true"
-                             styleClass="p-button-primary"
-                             rendered="#{loginControlador.usuarioAutenticado.rol == 'ADMIN'}"/>
-            <p:commandButton value="Admin Usuarios"
-                             icon="pi pi-cog"
-                             action="adminUsuario?faces-redirect=true"
-                             styleClass="p-button-primary"
-                             rendered="#{loginControlador.usuarioAutenticado.rol == 'ADMIN'}"/>
-            <p:commandButton value="Login"
-                             icon="pi pi-sign-in"
-                             action="login?faces-redirect=true"
-                             styleClass="p-button-secondary"
-                             rendered="#{loginControlador.usuarioAutenticado == null}"/>
+            <div class="header-buttons">
+                <p:commandButton value="Admin Articulos"
+                                 icon="pi pi-box"
+                                 action="adminArticulos?faces-redirect=true"
+                                 styleClass="p-button-primary"
+                                 rendered="#{loginControlador.usuarioAutenticado != null and loginControlador.usuarioAutenticado.rol == 'ADMIN'}"/>
+                <p:commandButton value="Admin Usuarios"
+                                 icon="pi pi-users"
+                                 action="adminUsuario?faces-redirect=true"
+                                 styleClass="p-button-primary"
+                                 rendered="#{loginControlador.usuarioAutenticado != null and loginControlador.usuarioAutenticado.rol == 'ADMIN'}"/>
+                <p:commandButton value="Login"
+                                 icon="pi pi-sign-in"
+                                 action="login?faces-redirect=true"
+                                 styleClass="p-button-secondary"
+                                 rendered="#{loginControlador.usuarioAutenticado == null}"/>
+            </div>
         </div>
 
         <h:form id="mainForm">
             <!-- Listado de artículos -->
-            <h3>Artículos Registrados</h3>
+            <h3 class="section-title">Artículos Registrados</h3>
+
             <div class="products-container">
                 <ui:repeat value="#{indexControlador.articulos}" var="articulo">
                     <div class="product-card">
-                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 15px;">
-                            <p:graphicImage
-                                    value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
-                                    styleClass="product-image"/>
-                            <div>
-                                <h3 style="margin-top: 0;">#{articulo.nombre}</h3>
-                                <span class="category-badge">#{articulo.categoria.nombre}</span>
-                                <p><strong>Precio:</strong> $#{articulo.precio}</p>
-                                <p><strong>Stock:</strong> #{articulo.stock} unidades</p>
-
+                        <p:graphicImage value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
+                                        styleClass="product-image"/>
+                        <div class="product-content">
+                            <h3 class="product-name">#{articulo.nombre}</h3>
+                            <p:badge value="#{articulo.categoria.nombre}" severity="info" styleClass="category-badge"/>
+                            <p class="product-price">$#{articulo.precio}</p>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <p:tag value="#{articulo.stock} unidades"
+                                       severity="#{articulo.stock gt 0 ? 'success' : 'danger'}"
+                                       icon="pi pi-box"/>
+                                <p:tag value="#{articulo.stock gt 0 ? 'Disponible' : 'Agotado'}"
+                                       severity="#{articulo.stock gt 0 ? 'success' : 'danger'}"
+                                       icon="pi pi-#{articulo.stock gt 0 ? 'check' : 'times'}"/>
                             </div>
                         </div>
                     </div>
                 </ui:repeat>
 
                 <ui:fragment rendered="#{empty indexControlador.articulos}">
-                    <div style="text-align: center; padding: 40px; color: #777;">
-                        <i class="pi pi-info-circle" style="font-size: 2em;"></i>
-                        <p>No hay artículos registrados</p>
+                    <div class="empty-message">
+                        <p:graphicImage name="/images/empty-state.svg" library="images" width="120"/>
+                        <h3>No hay artículos registrados</h3>
+                        <p>Actualmente no hay productos disponibles en el catálogo.</p>
+                        <p:commandButton value="Recargar" icon="pi pi-refresh"
+                                         action="#{indexControlador.cargarArticulos}"
+                                         styleClass="p-button-text"/>
                     </div>
                 </ui:fragment>
             </div>
@@ -207,6 +227,9 @@
     </div>
 
     <!-- Notificaciones -->
-    <p:growl id="growl" life="3000"/>
+    <p:growl id="growl" life="3000" position="top-right"/>
+
+    <!-- Agregar íconos de PrimeIcons -->
+    <h:outputScript name="primeicons/primeicons.js" library="primefaces"/>
 </h:body>
 </html>
