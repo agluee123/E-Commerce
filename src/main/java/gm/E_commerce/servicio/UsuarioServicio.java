@@ -41,7 +41,7 @@ public class UsuarioServicio implements IUsuarioServicio{
     public Usuarios buscarPorEmailYClave(String email, String clave) {
         try {
             return em.createQuery(
-                            "SELECT u FROM Usuarios u WHERE u.email = :email AND u.clave = :clave", Usuarios.class)
+                            "SELECT u FROM Usuarios u WHERE u.email = :email AND u.contraseña = :clave", Usuarios.class)
                     .setParameter("email", email)
                     .setParameter("clave", clave)
                     .getSingleResult();

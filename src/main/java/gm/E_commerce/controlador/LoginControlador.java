@@ -30,9 +30,9 @@ public class LoginControlador implements Serializable {
 
             // Redirige por rol
             if ("ADMIN".equals(u.getRol())) {
-                return "admin/dashboard?faces-redirect=true";
+                return "adminArticulos?faces-redirect=true";
             } else {
-                return "tienda?faces-redirect=true";
+                return "index?faces-redirect=true";
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
