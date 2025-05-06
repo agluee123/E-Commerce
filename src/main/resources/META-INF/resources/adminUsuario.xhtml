@@ -6,6 +6,18 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
+
+    <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
+        <div style="margin-bottom:10px;">
+            <h:outputText value="Usuario: #{loginControlador.nombreUsuarioLogueado}" />
+            <h:form style="display:inline;">
+                <p:commandButton value="Cerrar sesión"
+                                 icon="pi pi-sign-out"
+                                 action="#{loginControlador.logout}"
+                                 styleClass="p-button-danger p-button-sm" />
+            </h:form>
+        </div>
+    </h:panelGroup>
     <!--    <style>-->
     <!--        /* Fondo general */-->
     <!--        body {-->

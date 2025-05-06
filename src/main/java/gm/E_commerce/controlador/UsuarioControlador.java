@@ -107,6 +107,12 @@ public class UsuarioControlador implements Serializable {
                 new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", mensaje));
     }
 
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
+    }
+
+
     // Getters y Setters
     public List<Usuarios> getListaUsuarios() {
         return listaUsuarios;

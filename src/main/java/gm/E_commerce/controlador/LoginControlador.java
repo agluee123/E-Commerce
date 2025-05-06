@@ -66,6 +66,10 @@ public class LoginControlador implements Serializable {
         return usuarioAutenticado != null && "USER".equals(usuarioAutenticado.getRol());
     }
 
+    public String getNombreUsuarioLogueado() {
+        return usuarioAutenticado != null ? usuarioAutenticado.getNombre() : "";
+    }
+
     // Getters y Setters
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
