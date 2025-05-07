@@ -151,7 +151,8 @@
         <!-- Barra de usuario -->
         <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
             <div class="user-info">
-                <p:avatar icon="pi pi-user" size="large" shape="circle" style="background-color: #3498db; color: white"/>
+                <p:avatar icon="pi pi-user" size="large" shape="circle"
+                          style="background-color: #3498db; color: white"/>
                 <div style="flex-grow: 1;">
                     <h3 style="margin: 0 0 5px 0;">#{loginControlador.nombreUsuarioLogueado}</h3>
                     <p:badge value="#{loginControlador.usuarioAutenticado.rol}" severity="info"/>
@@ -160,7 +161,7 @@
                     <p:commandButton value="Cerrar sesión"
                                      icon="pi pi-sign-out"
                                      action="#{loginControlador.logout}"
-                                     styleClass="p-button-danger p-button-sm" />
+                                     styleClass="p-button-danger p-button-sm"/>
                 </h:form>
             </div>
         </h:panelGroup>
@@ -194,8 +195,9 @@
             <div class="products-container">
                 <ui:repeat value="#{indexControlador.articulos}" var="articulo">
                     <div class="product-card">
-                        <p:graphicImage value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
-                                        styleClass="product-image"/>
+                        <p:graphicImage
+                                value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
+                                styleClass="product-image"/>
                         <div class="product-content">
                             <h3 class="product-name">#{articulo.nombre}</h3>
                             <p:badge value="#{articulo.categoria.nombre}" severity="info" styleClass="category-badge"/>

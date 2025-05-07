@@ -7,7 +7,7 @@
 
 <h:head>
     <f:metadata>
-        <f:viewAction action="#{loginControlador.verificarAdmin}" />
+        <f:viewAction action="#{loginControlador.verificarAdmin}"/>
     </f:metadata>
 
     <title>Administración de Usuarios</title>
@@ -150,7 +150,8 @@
         <!-- Barra de usuario -->
         <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
             <div class="user-info">
-                <p:avatar icon="pi pi-user" size="large" shape="circle" style="background-color: #3498db; color: white"/>
+                <p:avatar icon="pi pi-user" size="large" shape="circle"
+                          style="background-color: #3498db; color: white"/>
                 <div style="flex-grow: 1;">
                     <h3 style="margin: 0 0 5px 0;">#{loginControlador.nombreUsuarioLogueado}</h3>
                     <p:badge value="#{loginControlador.usuarioAutenticado.rol}"
@@ -165,7 +166,7 @@
                     <p:commandButton value="Cerrar sesión"
                                      icon="pi pi-sign-out"
                                      action="#{loginControlador.logout}"
-                                     styleClass="p-button-danger p-button-sm" />
+                                     styleClass="p-button-danger p-button-sm"/>
                 </h:form>
             </div>
         </h:panelGroup>

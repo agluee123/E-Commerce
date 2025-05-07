@@ -7,7 +7,7 @@
 
 <h:head>
     <f:metadata>
-        <f:viewAction action="#{loginControlador.verificarAdmin}" />
+        <f:viewAction action="#{loginControlador.verificarAdmin}"/>
     </f:metadata>
 
     <title>Catálogo de Artículos</title>
@@ -132,7 +132,8 @@
         <!-- Barra de usuario -->
         <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
             <div class="user-info">
-                <p:avatar icon="pi pi-user" size="large" shape="circle" style="background-color: #3498db; color: white"/>
+                <p:avatar icon="pi pi-user" size="large" shape="circle"
+                          style="background-color: #3498db; color: white"/>
                 <div style="flex-grow: 1;">
                     <h3 style="margin: 0 0 5px 0;">#{loginControlador.nombreUsuarioLogueado}</h3>
                     <p:badge value="#{loginControlador.usuarioAutenticado.rol}" severity="info"/>
@@ -147,7 +148,7 @@
                     <p:commandButton value="Cerrar sesión"
                                      icon="pi pi-sign-out"
                                      action="#{loginControlador.logout}"
-                                     styleClass="p-button-danger p-button-sm" />
+                                     styleClass="p-button-danger p-button-sm"/>
                 </h:form>
             </div>
         </h:panelGroup>
@@ -260,8 +261,9 @@
                 </p:column>
 
                 <p:column headerText="Imagen">
-                    <p:graphicImage value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
-                                    width="50" height="50" styleClass="product-thumbnail"/>
+                    <p:graphicImage
+                            value="#{not empty articulo.imagenUrl ? articulo.imagenUrl : '/resources/default-product.png'}"
+                            width="50" height="50" styleClass="product-thumbnail"/>
                 </p:column>
 
                 <p:column headerText="Acciones" style="width: 180px;">
@@ -285,7 +287,8 @@
                 </p:column>
 
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Sí" styleClass="p-button-text" actionListener="#{indexControlador.eliminarArticulo(articulo.id)}"
+                    <p:commandButton value="Sí" styleClass="p-button-text"
+                                     actionListener="#{indexControlador.eliminarArticulo(articulo.id)}"
                                      update=":mainForm :growl" oncomplete="PF('confirmDialog').hide()"/>
                     <p:commandButton value="No" styleClass="p-button-text" onclick="PF('confirmDialog').hide()"/>
                 </p:confirmDialog>
