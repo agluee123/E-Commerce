@@ -5,57 +5,102 @@ import gm.E_commerce.modelo.Carrito;
 import gm.E_commerce.modelo.Usuarios;
 import gm.E_commerce.servicio.CarritoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
-@Controller
-@RequestMapping("/carrito")
+@Component
+@SessionScope
 public class CarritoControlador {
 
     @Autowired
     private CarritoServicio carritoServicio;
 
-    // Ver el carrito del usuario
-    @GetMapping
-    public String verCarrito(Model model) {
-        Usuarios usuario = new Usuarios();  // Aquí deberías obtener al usuario actual (por ejemplo, desde la sesión)
-        Carrito carrito = carritoServicio.obtenerCarritoActivo(usuario);
-        model.addAttribute("carrito", carrito);
-        return "carrito";  // La vista JSF que mostrará el carrito
+    @Autowired
+    private LoginControlador loginControlador;
+
+    private Carrito carrito;
+    private int cantidadItems;
+    private String mensaje;
+    private boolean mostrarMensaje;
+
+    public void cargarCarrito() {
+        Usuarios usuario = loginControlador.getUsuarioAutenticado();
+        if (usuario != null) {
+            this.carrito = carritoServicio.obtenerCarritoActivo(usuario);
+            this.cantidadItems = carrito != null ? carrito.getItems().size() : 0;
+        }
     }
 
-    // Agregar artículo al carrito
-    @PostMapping("/agregar")
-    public String agregarArticulo(@RequestParam("articuloId") int articuloId, @RequestParam("cantidad") int cantidad) {
-        // Aquí obtienes el artículo, en este caso lo estoy creando con el ID
-        Articulos articulo = new Articulos();
-        articulo.setId(articuloId);
+    public void agregarAlCarrito(int articuloId) {
+        try {
+            Usuarios usuario = loginControlador.getUsuarioAutenticado();
+            if (usuario == null) {
+                this.mensaje = "Debes iniciar sesión para agregar al carrito";
+                this.mostrarMensaje = true;
+                return;
+            }
 
-        // Llamamos al servicio para agregar el artículo
-        Usuarios usuario = new Usuarios();  // Aquí deberías obtener al usuario actual
-        carritoServicio.agregarArticulo(usuario, articulo, cantidad);
+            Articulos articulo = new Articulos();
+            articulo.setId(articuloId);
 
-        return "redirect:/carrito";  // Redirigimos para ver el carrito actualizado
+            carritoServicio.agregarArticulo(usuario, articulo, 1);
+            cargarCarrito();
+
+            this.mensaje = "Artículo agregado al carrito";
+            this.mostrarMensaje = true;
+        } catch (Exception e) {
+            this.mensaje = "Error: " + e.getMessage();
+            this.mostrarMensaje = true;
+        }
     }
 
-    // Eliminar un artículo del carrito
-    @PostMapping("/eliminar")
-    public String eliminarItem(@RequestParam("itemId") int itemId) {
-        // Llamamos al servicio para eliminar el artículo del carrito
-        Usuarios usuario = new Usuarios();  // Aquí deberías obtener al usuario actual
-        carritoServicio.eliminarItem(usuario, itemId);
+    public void eliminarItem(int itemId) {
+        try {
+            Usuarios usuario = loginControlador.getUsuarioAutenticado();
+            carritoServicio.eliminarItem(usuario, itemId);
+            cargarCarrito();
 
-        return "redirect:/carrito";  // Redirigimos para ver el carrito actualizado
+            this.mensaje = "Artículo eliminado del carrito";
+            this.mostrarMensaje = true;
+        } catch (Exception e) {
+            this.mensaje = "Error: " + e.getMessage();
+            this.mostrarMensaje = true;
+        }
     }
 
-    // Vaciar el carrito
-    @PostMapping("/vaciar")
-    public String vaciarCarrito() {
-        Usuarios usuario = new Usuarios();  // Aquí deberías obtener al usuario actual
-        Carrito carrito = carritoServicio.obtenerCarritoActivo(usuario);
-        carritoServicio.vaciarCarrito(carrito);
+    public void vaciarCarrito() {
+        try {
+            Usuarios usuario = loginControlador.getUsuarioAutenticado();
+            Carrito carrito = carritoServicio.obtenerCarritoActivo(usuario);
+            carritoServicio.vaciarCarrito(carrito);
+            cargarCarrito();
 
-        return "redirect:/carrito";  // Redirigimos para ver el carrito vacío
+            this.mensaje = "Carrito vaciado";
+            this.mostrarMensaje = true;
+        } catch (Exception e) {
+            this.mensaje = "Error: " + e.getMessage();
+            this.mostrarMensaje = true;
+        }
+    }
+
+    // Getters y Setters
+    public Carrito getCarrito() {
+        return carrito;
+    }
+
+    public int getCantidadItems() {
+        return cantidadItems;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public boolean isMostrarMensaje() {
+        return mostrarMensaje;
+    }
+
+    public void setMostrarMensaje(boolean mostrarMensaje) {
+        this.mostrarMensaje = mostrarMensaje;
     }
 }
