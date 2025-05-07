@@ -3,12 +3,15 @@ package gm.E_commerce.modelo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Table(name = "items_carrito")
 public class ItemCarrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,10 +56,15 @@ public class ItemCarrito {
     }
 
     public float getPrecioUnitario() {
-        return precioUnitario;
+        // Simplemente toma el precio del artículo
+        return articulo != null ? articulo.getPrecio() : 0;
     }
 
     public void setPrecioUnitario(float precioUnitario) {
         this.precioUnitario = precioUnitario;
+    }
+
+    public float getSubtotal() {
+        return getPrecioUnitario()* this.cantidad;
     }
 }

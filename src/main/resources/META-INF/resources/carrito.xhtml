@@ -1,40 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="content">
-        <h:form>
-            <h:outputText value="Carrito de Compras" style="font-size: 24px; font-weight: bold;" /><br /><br />
+<h:head>
+    <title>Carrito</title>
+</h:head>
 
-            <p:dataTable value="#{carritoController.carrito.items}" var="item" paginator="true" rows="5">
-                <p:column headerText="Nombre">
-                    <h:outputText value="#{item.articulo.nombre}" />
-                </p:column>
-                <p:column headerText="Cantidad">
-                    <h:outputText value="#{item.cantidad}" />
-                </p:column>
-                <p:column headerText="Precio">
-                    <h:outputText value="#{item.precioUnitario}" />
-                </p:column>
-                <p:column headerText="Acciones">
-                    <p:commandButton value="Eliminar" action="#{carritoController.eliminarItem(item.id)}" update="carritoTable" />
-                </p:column>
-            </p:dataTable>
+<h:body>
+    <h:form>
+        <h1>Mi Carrito</h1>
 
-            <!-- Formulario para agregar un artículo -->
-            <h:panelGrid columns="2">
-                <h:outputLabel for="articuloId" value="ID del artículo:" />
-                <p:inputText id="articuloId" value="#{carritoController.articuloId}" required="true" />
-                <h:outputLabel for="cantidad" value="Cantidad:" />
-                <p:inputText id="cantidad" value="#{carritoController.cantidad}" required="true" />
-            </h:panelGrid>
+        <h:messages globalOnly="true" layout="table"/>
 
-            <p:commandButton value="Agregar al Carrito" action="#{carritoController.agregarArticulo}" update="carritoTable" />
+        <p:dataTable value="#{carritoControlador.carrito.items}" var="item" rendered="#{not empty carritoControlador.carrito.items}">
+            <p:column headerText="Artículo">
+                #{item.articulo.nombre}
+            </p:column>
 
-            <br />
-            <p:commandButton value="Vaciar Carrito" action="#{carritoController.vaciarCarrito}" update="carritoTable" />
-        </h:form>
-    </ui:define>
-</ui:composition>
+            <p:column headerText="Cantidad">
+                #{item.cantidad}
+            </p:column>
+
+            <p:column headerText="Precio unitario">
+                #{item.precioUnitario}
+            </p:column>
+
+            <p:column headerText="Subtotal">
+                #{item.cantidad * item.precioUnitario}
+            </p:column>
+
+            <p:column headerText="Acciones">
+                <p:commandButton value="Eliminar" action="#{carritoControlador.eliminarItem(item.id)}"
+                                 update="@form" />
+            </p:column>
+        </p:dataTable>
+
+        <h:panelGroup rendered="#{empty carritoControlador.carrito.items}">
+            <h3>Tu carrito está vacío.</h3>
+        </h:panelGroup>
+
+        <p:commandButton value="Vaciar Carrito"
+                         action="#{carritoControlador.vaciarCarrito}"
+                         update="@form"
+                         rendered="#{not empty carritoControlador.carrito.items}" />
+
+    </h:form>
+</h:body>
+</html>
