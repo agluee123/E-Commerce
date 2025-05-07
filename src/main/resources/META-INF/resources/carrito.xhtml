@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/main.xhtml">
+
+    <ui:define name="content">
+        <h:form>
+            <h:outputText value="Carrito de Compras" style="font-size: 24px; font-weight: bold;" /><br /><br />
+
+            <p:dataTable value="#{carritoController.carrito.items}" var="item" paginator="true" rows="5">
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{item.articulo.nombre}" />
+                </p:column>
+                <p:column headerText="Cantidad">
+                    <h:outputText value="#{item.cantidad}" />
+                </p:column>
+                <p:column headerText="Precio">
+                    <h:outputText value="#{item.precioUnitario}" />
+                </p:column>
+                <p:column headerText="Acciones">
+                    <p:commandButton value="Eliminar" action="#{carritoController.eliminarItem(item.id)}" update="carritoTable" />
+                </p:column>
+            </p:dataTable>
+
+            <!-- Formulario para agregar un artículo -->
+            <h:panelGrid columns="2">
+                <h:outputLabel for="articuloId" value="ID del artículo:" />
+                <p:inputText id="articuloId" value="#{carritoController.articuloId}" required="true" />
+                <h:outputLabel for="cantidad" value="Cantidad:" />
+                <p:inputText id="cantidad" value="#{carritoController.cantidad}" required="true" />
+            </h:panelGrid>
+
+            <p:commandButton value="Agregar al Carrito" action="#{carritoController.agregarArticulo}" update="carritoTable" />
+
+            <br />
+            <p:commandButton value="Vaciar Carrito" action="#{carritoController.vaciarCarrito}" update="carritoTable" />
+        </h:form>
+    </ui:define>
+</ui:composition>

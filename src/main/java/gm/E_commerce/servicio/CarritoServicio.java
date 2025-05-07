@@ -8,13 +8,14 @@ import gm.E_commerce.repositorio.ArticulosRepositorio;
 import gm.E_commerce.repositorio.CarritoRepositorio;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.Optional;
 
 @ApplicationScope
 @Transactional
-
+@Service
 public class CarritoServicio implements ICarritoServicio{
 
     @Inject
