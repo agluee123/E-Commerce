@@ -19,12 +19,21 @@
                 #{item.articulo.nombre}
             </p:column>
 
-            <p:column headerText="Cantidad">
-                #{item.cantidad}
-            </p:column>
 
             <p:column headerText="Precio unitario">
                 #{item.precioUnitario}
+            </p:column>
+
+
+            <p:column headerText="Cantidad">
+                <p:commandButton value="-" action="#{carritoControlador.decrementarCantidad(item)}"
+                                 update="@form" />
+                <h:outputText value=" #{item.cantidad} " style="margin: 0 10px;"/>
+
+                <p:commandButton value="+"
+                                 action="#{carritoControlador.incrementarCantidad(item)}"
+                                 update="@form"
+                                 disabled="#{item.cantidad >= item.articulo.stock}"  />
             </p:column>
 
             <p:column headerText="Subtotal">
@@ -46,6 +55,20 @@
                          update="@form"
                          rendered="#{not empty carritoControlador.carrito.items}" />
 
+
+        <h:panelGroup rendered="#{not empty carritoControlador.carrito.items}" style="margin-top: 20px;">
+            <div style="display: flex; justify-content: flex-end;">
+                <div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 15px; border-radius: 4px;">
+                    <span style="font-weight: bold; margin-right: 10px;">Total:</span>
+                    <span style="font-weight: bold; color: #2c3e50;">
+                <h:outputText value="#{carritoControlador.calcularTotalCarrito()}">
+                    <f:convertNumber type="currency" currencySymbol="$" />
+                </h:outputText>
+            </span>
+                </div>
+            </div>
+        </h:panelGroup>
     </h:form>
+
 </h:body>
 </html>

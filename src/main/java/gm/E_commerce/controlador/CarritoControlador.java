@@ -2,8 +2,11 @@ package gm.E_commerce.controlador;
 
 import gm.E_commerce.modelo.Articulos;
 import gm.E_commerce.modelo.Carrito;
+import gm.E_commerce.modelo.ItemCarrito;
 import gm.E_commerce.modelo.Usuarios;
 import gm.E_commerce.servicio.CarritoServicio;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -29,6 +32,38 @@ public class CarritoControlador {
             this.carrito = carritoServicio.obtenerCarritoActivo(usuario);
             this.cantidadItems = carrito != null ? carrito.getItems().size() : 0;
         }
+    }
+
+
+    public void incrementarCantidad(ItemCarrito item) {
+
+        if (item.getCantidad() < item.getArticulo().getStock()) {
+            item.setCantidad(item.getCantidad() + 1);
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Límite de stock alcanzado",
+                    "No hay suficiente stock disponible");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+
+
+
+    public void decrementarCantidad(ItemCarrito item) {
+        if (item.getCantidad() > 1) {
+            item.setCantidad(item.getCantidad() - 1);
+            // Aquí puedes agregar lógica adicional como actualizar el stock, etc.
+        }
+    }
+
+    public double calcularTotalCarrito() {
+        double total = 0.0;
+        if (carrito != null && carrito.getItems() != null) {
+            for (ItemCarrito item : carrito.getItems()) {
+                total += item.getCantidad() * item.getPrecioUnitario();
+            }
+        }
+        return total;
     }
 
     public void agregarAlCarrito(int articuloId) {
