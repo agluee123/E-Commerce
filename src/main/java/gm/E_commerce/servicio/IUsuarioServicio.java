@@ -7,8 +7,11 @@ import java.util.List;
 
 public interface IUsuarioServicio {
     public List<Usuarios> Listar();
+
     public void guardar(Usuarios usuario);
+
     public void eliminarPorId(int idArticulo);
+
     public Usuarios obtenerUsuarioPorId(int usuarioId);
 
 }

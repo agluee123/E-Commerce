@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Component
@@ -49,7 +50,7 @@ public class IndexControlador {
 
     public void prepararNuevoArticulo() {
         this.articuloNuevo = new Articulos();
-        if(!this.categorias.isEmpty()) {
+        if (!this.categorias.isEmpty()) {
             this.categoriaSeleccionadaId = this.categorias.get(0).getId();
         }
     }
@@ -58,20 +59,20 @@ public class IndexControlador {
     public void guardarArticulo() {
         try {
             // Validación de nombre primero (más común)
-            if(articuloNuevo.getNombre() == null || articuloNuevo.getNombre().trim().isEmpty()) {
+            if (articuloNuevo.getNombre() == null || articuloNuevo.getNombre().trim().isEmpty()) {
                 mostrarMensajeError("El nombre es obligatorio");
                 return;
             }
 
             // Validación de categoría seleccionada (0 es valor inválido)
-            if(categoriaSeleccionadaId == 0) {  // Cambiado de null a 0
+            if (categoriaSeleccionadaId == 0) {  // Cambiado de null a 0
                 mostrarMensajeError("Seleccione una categoría");
                 return;
             }
 
             // Obtener la categoría completa desde el ID
             Categorias categoria = categoriaServicio.obtenerCategoriaPorId(categoriaSeleccionadaId);
-            if(categoria == null) {
+            if (categoria == null) {
                 mostrarMensajeError("Categoría no válida");
                 return;
             }

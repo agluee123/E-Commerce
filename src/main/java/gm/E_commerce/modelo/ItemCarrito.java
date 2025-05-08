@@ -65,6 +65,6 @@ public class ItemCarrito {
     }
 
     public float getSubtotal() {
-        return getPrecioUnitario()* this.cantidad;
+        return getPrecioUnitario() * this.cantidad;
     }
 }

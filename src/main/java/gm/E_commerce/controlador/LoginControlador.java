@@ -71,12 +71,24 @@ public class LoginControlador implements Serializable {
     }
 
     // Getters y Setters
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public String getClave() { return clave; }
-    public void setClave(String clave) { this.clave = clave; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public Usuarios getUsuarioAutenticado() { return usuarioAutenticado; }
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public Usuarios getUsuarioAutenticado() {
+        return usuarioAutenticado;
+    }
 }
 

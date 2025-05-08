@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CarritoRepositorio extends JpaRepository<Carrito,Integer> {
+public interface CarritoRepositorio extends JpaRepository<Carrito, Integer> {
     Optional<Carrito> findByUsuarioAndEstado(Usuarios usuario, String estado);
 }

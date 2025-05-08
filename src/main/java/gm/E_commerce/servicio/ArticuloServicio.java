@@ -18,7 +18,7 @@ public class ArticuloServicio implements IArticuloServicio {
     @Override
     @Transactional(readOnly = true)
     public List<Articulos> listarArticulos() {
-        List<Articulos> articulos=articuloRepositorio.findAll();
+        List<Articulos> articulos = articuloRepositorio.findAll();
         return articulos;
     }
 
@@ -38,14 +38,14 @@ public class ArticuloServicio implements IArticuloServicio {
 
     @Override
     @Transactional
-    public void eliminarArticuloPorId(int idArticulo){
+    public void eliminarArticuloPorId(int idArticulo) {
         articuloRepositorio.deleteById(idArticulo);
 
     }
 
     @Override
     @Transactional
-    public void actualizarArticulo(Articulos articuloNuevo){
+    public void actualizarArticulo(Articulos articuloNuevo) {
         articuloRepositorio.save(articuloNuevo);
     }
 

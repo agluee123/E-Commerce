@@ -5,11 +5,17 @@ import gm.E_commerce.modelo.Carrito;
 import gm.E_commerce.modelo.ItemCarrito;
 import gm.E_commerce.modelo.Usuarios;
 import gm.E_commerce.servicio.CarritoServicio;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Component
 @SessionScope
@@ -25,46 +31,38 @@ public class CarritoControlador {
     private int cantidadItems;
     private String mensaje;
     private boolean mostrarMensaje;
+    private List<Integer> articulosEnCarrito;
+
+    // O mejor aún, con PostConstruct:
+    @PostConstruct
+    public void init() {
+        cargarCarrito();
+    }
+
 
     public void cargarCarrito() {
         Usuarios usuario = loginControlador.getUsuarioAutenticado();
         if (usuario != null) {
             this.carrito = carritoServicio.obtenerCarritoActivo(usuario);
             this.cantidadItems = carrito != null ? carrito.getItems().size() : 0;
-        }
-    }
 
-
-    public void incrementarCantidad(ItemCarrito item) {
-
-        if (item.getCantidad() < item.getArticulo().getStock()) {
-            item.setCantidad(item.getCantidad() + 1);
-        } else {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
-                    "Límite de stock alcanzado",
-                    "No hay suficiente stock disponible");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-    }
-
-
-
-    public void decrementarCantidad(ItemCarrito item) {
-        if (item.getCantidad() > 1) {
-            item.setCantidad(item.getCantidad() - 1);
-            // Aquí puedes agregar lógica adicional como actualizar el stock, etc.
-        }
-    }
-
-    public double calcularTotalCarrito() {
-        double total = 0.0;
-        if (carrito != null && carrito.getItems() != null) {
-            for (ItemCarrito item : carrito.getItems()) {
-                total += item.getCantidad() * item.getPrecioUnitario();
+            // 🔥 NUEVO: guardar los IDs de los artículos en el carrito
+            if (carrito != null && carrito.getItems() != null) {
+                this.articulosEnCarrito = carrito.getItems().stream()
+                        .map(item -> item.getArticulo().getId())
+                        .toList();
+            } else {
+                this.articulosEnCarrito = new ArrayList<>();
             }
+
+            PrimeFaces.current().ajax().update("form:botonesCarrito");
         }
-        return total;
     }
+
+    public boolean articuloYaEnCarrito(int articuloId) {
+        return articulosEnCarrito != null && articulosEnCarrito.contains(articuloId);
+    }
+
 
     public void agregarAlCarrito(int articuloId) {
         try {
@@ -118,7 +116,34 @@ public class CarritoControlador {
         }
     }
 
+    public void incrementarCantidad(ItemCarrito item) {
 
+        if (item.getCantidad() < item.getArticulo().getStock()) {
+            item.setCantidad(item.getCantidad() + 1);
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+                    "Límite de stock alcanzado",
+                    "No hay suficiente stock disponible");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+
+    public void decrementarCantidad(ItemCarrito item) {
+        if (item.getCantidad() > 1) {
+            item.setCantidad(item.getCantidad() - 1);
+            // Aquí puedes agregar lógica adicional como actualizar el stock, etc.
+        }
+    }
+
+    public double calcularTotalCarrito() {
+        double total = 0.0;
+        if (carrito != null && carrito.getItems() != null) {
+            for (ItemCarrito item : carrito.getItems()) {
+                total += item.getCantidad() * item.getPrecioUnitario();
+            }
+        }
+        return total;
+    }
 
 
     // Getters y Setters

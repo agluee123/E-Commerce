@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public class UsuarioServicio implements IUsuarioServicio{
+public class UsuarioServicio implements IUsuarioServicio {
 
     @Inject
     private EntityManager em;
@@ -49,9 +50,6 @@ public class UsuarioServicio implements IUsuarioServicio{
             return null; // Si no hay coincidencia
         }
     }
-
-
-
 
 
 }

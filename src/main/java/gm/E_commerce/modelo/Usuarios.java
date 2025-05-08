@@ -20,7 +20,7 @@ public class Usuarios {
     private String nombre;
     private String email;
     private String contraseña;
-    private String rol ="CLIENTE";
+    private String rol = "CLIENTE";
 
     public int getId() {
         return id;
@@ -61,7 +61,6 @@ public class Usuarios {
     public void setRol(String rol) {
         this.rol = rol;
     }
-
 
 
 }

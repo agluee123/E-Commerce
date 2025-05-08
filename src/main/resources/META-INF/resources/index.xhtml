@@ -174,9 +174,10 @@
                                  icon="pi pi-shopping-cart"
                                  action="carrito?faces-redirect=true"
                                  styleClass="p-button-help"
-                                 rendered="#{loginControlador.usuarioAutenticado != null}">
-                    <p:badge value="#{carritoControlador.cantidadItems}"
-                             rendered="#{carritoControlador.cantidadItems > 0}" />
+                                 rendered="#{loginControlador.usuarioAutenticado != null}"
+                                 update="carritoBadge">
+                    <p:badge id="carritoBadge" value="#{carritoControlador.cantidadItems}"
+                             rendered="#{carritoControlador.cantidadItems > 0}"/>
                 </p:commandButton>
                 <p:commandButton value="Admin Articulos"
                                  icon="pi pi-box"
@@ -218,14 +219,17 @@
                                        severity="#{articulo.stock gt 0 ? 'success' : 'danger'}"
                                        icon="pi pi-#{articulo.stock gt 0 ? 'check' : 'times'}"/>
                             </div>
+
                             <p:commandButton
-                                    icon="pi pi-cart-plus"
-                                    value="Añadir al carrito"
+                                    icon="#{carritoControlador.articuloYaEnCarrito(articulo.id) ? 'pi pi-check' : 'pi pi-cart-plus'}"
+                                    value="#{carritoControlador.articuloYaEnCarrito(articulo.id) ? 'Ya en el carrito' : 'Añadir al carrito'}"
                                     action="#{carritoControlador.agregarAlCarrito(articulo.id)}"
                                     update="@form :growl"
-                                    disabled="#{loginControlador.usuarioAutenticado == null or articulo.stock == 0}">
+                                    disabled="#{loginControlador.usuarioAutenticado == null or articulo.stock == 0 or carritoControlador.articuloYaEnCarrito(articulo.id)}">
                                 <f:attribute name="articuloId" value="#{articulo.id}"/>
                             </p:commandButton>
+
+
                         </div>
                     </div>
                 </ui:repeat>
