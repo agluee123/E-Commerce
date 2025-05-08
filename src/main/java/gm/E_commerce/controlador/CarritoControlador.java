@@ -36,7 +36,11 @@ public class CarritoControlador {
     // O mejor aún, con PostConstruct:
     @PostConstruct
     public void init() {
-        cargarCarrito();
+
+        if (loginControlador.getUsuarioAutenticado() != null) {
+            cargarCarrito();
+        }
+
     }
 
 

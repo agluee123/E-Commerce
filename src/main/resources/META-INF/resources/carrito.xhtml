@@ -5,70 +5,320 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-    <title>Carrito</title>
+    <title>Carrito de Compras</title>
+
+    <style type="text/css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #495057;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .cart-table .p-datatable-thead > tr > th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px 15px;
+        }
+
+        .cart-table .p-datatable-tbody > tr > td {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .cart-table .p-datatable-tbody > tr {
+            transition: background-color 0.2s;
+        }
+
+        .cart-table .p-datatable-tbody > tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .total-container {
+            display: flex;
+            justify-content: flex-end;
+            margin: 25px 0;
+        }
+
+        .total-box {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            padding: 15px 25px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            font-size: 18px;
+        }
+
+        .total-label {
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .total-amount {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: flex-end;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            margin: 25px 0 15px 0;
+            font-size: 22px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .header-buttons {
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .quantity-control {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        }
+    </style>
 </h:head>
 
 <h:body>
-    <h:form>
-        <h1>Mi Carrito</h1>
-
-        <h:messages globalOnly="true" layout="table"/>
-
-        <p:dataTable value="#{carritoControlador.carrito.items}" var="item" rendered="#{not empty carritoControlador.carrito.items}">
-            <p:column headerText="Artículo">
-                #{item.articulo.nombre}
-            </p:column>
-
-
-            <p:column headerText="Precio unitario">
-                #{item.precioUnitario}
-            </p:column>
-
-
-            <p:column headerText="Cantidad">
-                <p:commandButton value="-" action="#{carritoControlador.decrementarCantidad(item)}"
-                                 update="@form" />
-                <h:outputText value=" #{item.cantidad} " style="margin: 0 10px;"/>
-
-                <p:commandButton value="+"
-                                 action="#{carritoControlador.incrementarCantidad(item)}"
-                                 update="@form"
-                                 disabled="#{item.cantidad >= item.articulo.stock}"  />
-            </p:column>
-
-            <p:column headerText="Subtotal">
-                #{item.cantidad * item.precioUnitario}
-            </p:column>
-
-            <p:column headerText="Acciones">
-                <p:commandButton value="Eliminar" action="#{carritoControlador.eliminarItem(item.id)}"
-                                 update="@form" />
-            </p:column>
-        </p:dataTable>
-
-        <h:panelGroup rendered="#{empty carritoControlador.carrito.items}">
-            <h3>Tu carrito está vacío.</h3>
-        </h:panelGroup>
-
-        <p:commandButton value="Vaciar Carrito"
-                         action="#{carritoControlador.vaciarCarrito}"
-                         update="@form"
-                         rendered="#{not empty carritoControlador.carrito.items}" />
-
-
-        <h:panelGroup rendered="#{not empty carritoControlador.carrito.items}" style="margin-top: 20px;">
-            <div style="display: flex; justify-content: flex-end;">
-                <div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px 15px; border-radius: 4px;">
-                    <span style="font-weight: bold; margin-right: 10px;">Total:</span>
-                    <span style="font-weight: bold; color: #2c3e50;">
-                <h:outputText value="#{carritoControlador.calcularTotalCarrito()}">
-                    <f:convertNumber type="currency" currencySymbol="$" />
-                </h:outputText>
-            </span>
+    <div class="container">
+        <!-- Barra de usuario -->
+        <h:panelGroup rendered="#{loginControlador.usuarioAutenticado != null}">
+            <div class="user-info">
+                <p:avatar icon="pi pi-user" size="large" shape="circle"
+                          style="background-color: #3498db; color: white"/>
+                <div style="flex-grow: 1;">
+                    <h3 style="margin: 0 0 5px 0;">#{loginControlador.nombreUsuarioLogueado}</h3>
+                    <p:badge value="#{loginControlador.usuarioAutenticado.rol}"
+                             severity="#{loginControlador.usuarioAutenticado.rol == 'ADMIN' ? 'danger' : 'info'}"/>
                 </div>
+                <p:commandButton value="Cerrar sesión"
+                                 icon="pi pi-sign-out"
+                                 action="#{loginControlador.logout}"
+                                 styleClass="p-button-danger p-button-sm"/>
             </div>
         </h:panelGroup>
-    </h:form>
 
+        <!-- Encabezado -->
+        <div class="header">
+            <h1>Mi Carrito</h1>
+            <div class="header-buttons">
+                <p:commandButton value="Inicio"
+                                 icon="pi pi-home"
+                                 action="index?faces-redirect=true"
+                                 styleClass="p-button-text"/>
+                <p:commandButton value="Admin Artículos"
+                                 icon="pi pi-box"
+                                 action="adminArticulos?faces-redirect=true"
+                                 styleClass="p-button-primary"
+                                 rendered="#{loginControlador.usuarioAutenticado != null and loginControlador.usuarioAutenticado.rol == 'ADMIN'}"/>
+                <p:commandButton value="Admin Usuarios"
+                                 icon="pi pi-users"
+                                 action="adminUsuario?faces-redirect=true"
+                                 styleClass="p-button-primary"
+                                 rendered="#{loginControlador.usuarioAutenticado != null and loginControlador.usuarioAutenticado.rol == 'ADMIN'}"/>
+                <p:commandButton value="Login"
+                                 icon="pi pi-sign-in"
+                                 action="login?faces-redirect=true"
+                                 styleClass="p-button-secondary"
+                                 rendered="#{loginControlador.usuarioAutenticado == null}"/>
+            </div>
+        </div>
+
+        <h:form id="cartForm">
+            <!-- Mensajes globales -->
+            <h:messages globalOnly="true" layout="table" styleClass="ui-messages" warnClass="ui-messages-warn"
+                        errorClass="ui-messages-error" infoClass="ui-messages-info"/>
+
+            <!-- Tabla de artículos -->
+            <p:dataTable value="#{carritoControlador.carrito.items}" var="item"
+                         rendered="#{not empty carritoControlador.carrito.items}"
+                         styleClass="cart-table"
+                         paginator="true"
+                         rows="10"
+                         responsiveLayout="scroll"
+                         emptyMessage="No hay artículos en el carrito"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="Mostrando {startRecord} - {endRecord} de {totalRecords} artículos"
+                         rowsPerPageTemplate="5,10,15,20">
+
+                <p:column headerText="Artículo" sortBy="#{item.articulo.nombre}" width="25%">
+                    <h:outputText value="#{item.articulo.nombre}" style="font-weight: 500;"/>
+                </p:column>
+
+                <p:column headerText="Precio unitario" sortBy="#{item.precioUnitario}" width="20%">
+                    <h:outputText value="#{item.precioUnitario}">
+                        <f:convertNumber type="currency" currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Cantidad" width="20%">
+                    <div class="quantity-control">
+                        <p:commandButton icon="pi pi-minus"
+                                         action="#{carritoControlador.decrementarCantidad(item)}"
+                                         update="@form"
+                                         styleClass="p-button-rounded p-button-text"
+                                         title="Reducir cantidad"/>
+
+                        <h:outputText value="#{item.cantidad}" style="margin: 0 10px; font-weight: 500;"/>
+
+                        <p:commandButton icon="pi pi-plus"
+                                         action="#{carritoControlador.incrementarCantidad(item)}"
+                                         update="@form"
+                                         styleClass="p-button-rounded p-button-text"
+                                         disabled="#{item.cantidad >= item.articulo.stock}"
+                                         title="Aumentar cantidad"/>
+                    </div>
+                </p:column>
+
+                <p:column headerText="Subtotal" sortBy="#{item.cantidad * item.precioUnitario}" width="20%">
+                    <h:outputText value="#{item.cantidad * item.precioUnitario}">
+                        <f:convertNumber type="currency" currencySymbol="$"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Acciones" width="15%">
+                    <p:commandButton icon="pi pi-trash"
+                                     action="#{carritoControlador.eliminarItem(item.id)}"
+                                     update="@form"
+                                     styleClass="p-button-danger p-button-sm"
+                                     title="Eliminar artículo">
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <!-- Carrito vacío -->
+            <h:panelGroup rendered="#{empty carritoControlador.carrito.items}">
+                <div class="empty-cart">
+                    <i class="pi pi-shopping-cart" style="font-size: 3rem; color: #adb5bd; margin-bottom: 15px;"></i>
+                    <h3 style="margin-top: 0; color: #6c757d;">Tu carrito está vacío</h3>
+                    <p>Agrega productos para comenzar a comprar</p>
+                    <p:button value="Ver productos" outcome="index" styleClass="p-button-primary"/>
+                </div>
+            </h:panelGroup>
+
+            <!-- Total y acciones -->
+            <h:panelGroup rendered="#{not empty carritoControlador.carrito.items}">
+                <div class="total-container">
+                    <div class="total-box">
+                        <span class="total-label">Total:</span>
+                        <span class="total-amount">
+                            <h:outputText value="#{carritoControlador.calcularTotalCarrito()}">
+                                <f:convertNumber type="currency" currencySymbol="$"/>
+                            </h:outputText>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <p:commandButton value="Vaciar Carrito"
+                                     action="#{carritoControlador.vaciarCarrito}"
+                                     update="@form"
+                                     icon="pi pi-trash"
+                                     styleClass="p-button-danger p-button-sm"/>
+
+                    <p:button value="Continuar comprando"
+                              outcome="index"
+                              icon="pi pi-arrow-left"
+                              styleClass="p-button-text"/>
+
+                    <p:commandButton value="Finalizar compra"
+                                     action="#{carritoControlador.finalizarCompra()}"
+                                     icon="pi pi-check"
+                                     styleClass="p-button-success"
+                                     update="@form"
+                                     rendered="#{loginControlador.usuarioAutenticado != null}"
+                                     oncomplete="if(!args.validationFailed) {window.location.href='pago.xhtml'}"/>
+
+                    <p:button value="Iniciar sesión para comprar"
+                              outcome="login"
+                              icon="pi pi-user"
+                              styleClass="p-button-warning"
+                              rendered="#{loginControlador.usuarioAutenticado == null}"/>
+                </div>
+            </h:panelGroup>
+        </h:form>
+    </div>
+
+    <!-- Diálogo de confirmación global -->
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" header="Confirmación">
+        <p:commandButton value="Sí" styleClass="p-button-text" icon="pi pi-check"/>
+        <p:commandButton value="No" styleClass="p-button-text" icon="pi pi-times"/>
+    </p:confirmDialog>
 </h:body>
 </html>
